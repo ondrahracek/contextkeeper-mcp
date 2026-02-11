@@ -1,14 +1,36 @@
 {
-  "name": "contextkeeper-mcp",
+  "name": "@ondrahracek/contextkeeper-mcp",
   "version": "1.0.0",
-  "description": "MCP server for ContextKeeper",
+  "description": "MCP server for ContextKeeper - integrate your context items with AI assistants",
   "main": "build/index.js",
   "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "contextkeeper",
+    "cursor",
+    "claude",
+    "ai-assistant"
+  ],
+  "author": "Ondra Hrácek <ondrahracek@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ondrahracek/contextkeeper-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ondrahracek/contextkeeper-mcp/issues"
+  },
+  "homepage": "https://github.com/ondrahracek/contextkeeper-mcp",
   "scripts": {
     "build": "tsc",
     "start": "node build/index.js",
     "test": "jest",
-    "lint": "eslint src/**/*.ts"
+    "lint": "eslint src/**/*.ts",
+    "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.1"

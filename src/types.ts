@@ -52,3 +52,83 @@ export interface ActionResult {
   /** Status of the action */
   status: "completed" | "added";
 }
+
+/**
+ * Result of removing an item
+ */
+export interface RemoveResult {
+  /** ID of the removed item */
+  id: string;
+  /** Status of the action */
+  status: "removed";
+}
+
+/**
+ * Result of editing an item
+ */
+export interface EditResult {
+  /** ID of the edited item */
+  id: string;
+  /** Status of the action */
+  status: "updated";
+}
+
+/**
+ * Result of syncing context
+ */
+export interface SyncResult {
+  /** Whether the sync was successful */
+  success: boolean;
+  /** Number of files synced */
+  syncedFiles: number;
+}
+
+/**
+ * Input parameters for searching context items
+ */
+export interface SearchContextInput {
+  /** Search query string */
+  query?: string;
+  /** Filter by tags */
+  tags?: string[];
+  /** Include completed items */
+  showCompleted?: boolean;
+  /** Path to the context directory */
+  path?: string;
+}
+
+/**
+ * Input parameters for removing a context item
+ */
+export interface RemoveContextInput {
+  /** Item ID (full UUID or 6-character prefix) */
+  id: string;
+  /** Path to the context directory */
+  path?: string;
+  /** Sync to AI agent files after operation */
+  sync?: boolean;
+}
+
+/**
+ * Input parameters for editing a context item
+ */
+export interface EditContextInput {
+  /** Item ID (full UUID or 6-character prefix) */
+  id: string;
+  /** New content/description */
+  content?: string;
+  /** New tags for the item */
+  tags?: string[];
+  /** Path to the context directory */
+  path?: string;
+  /** Sync to AI agent files after operation */
+  sync?: boolean;
+}
+
+/**
+ * Input parameters for syncing context
+ */
+export interface SyncContextInput {
+  /** Path to the context directory */
+  path?: string;
+}

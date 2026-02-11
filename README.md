@@ -11,12 +11,24 @@ This MCP server allows AI assistants to read and modify your ContextKeeper items
 
 ## Tools
 
-| Tool | Description |
-|------|-------------|
-| `list_context_items` | List all context items with ID, content, project, tags, and status |
-| `add_context_item` | Add a new context item |
-| `complete_context_item` | Mark a context item as completed |
-| `context_status` | Get a quick summary (counts, projects, tags) |
+| Tool | Description | CLI Equivalent |
+|------|-------------|----------------|
+| `list_context_items` | List all context items with ID, content, project, tags, and status | `ck list` |
+| `add_context_item` | Add a new context item | `ck add` |
+| `mark_context_done` | Mark a context item as completed | `ck done` |
+| `get_context_status` | Get a quick summary (counts, projects, tags) | `ck status` |
+| `search_context_items` | Search context items by query string and/or tags | `ck search` |
+| `remove_context_item` | Remove (archive) a context item by ID | `ck remove` |
+| `edit_context_item` | Edit an existing context item's content and/or tags | `ck edit` |
+| `sync_context_items` | Trigger a sync of context items to AI agent files | `ck sync` |
+
+### Naming Convention
+
+All tools follow MCP best practices:
+- **snake_case**: `list_context_items`, `add_context_item`
+- **Verb-first**: `get_context_status`, `mark_context_done`
+- **Consistent plural**: All use `context_items` (except `status`)
+- **Aligned with CLI**: Each tool maps directly to a `ck` command
 
 ## Prerequisites
 
