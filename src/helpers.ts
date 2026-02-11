@@ -139,6 +139,24 @@ export interface SyncContextInput {
 }
 
 /**
+ * Result of initializing context
+ */
+export interface InitResult {
+  /** Path to the initialized directory */
+  path: string;
+  /** Status of the action */
+  status: "initialized" | "already_exists";
+}
+
+/**
+ * Input parameters for initializing context
+ */
+export interface InitContextInput {
+  /** Path to initialize (defaults to current directory) */
+  path?: string;
+}
+
+/**
  * Error thrown when the CK CLI fails
  */
 export class CkCliError extends Error {
@@ -318,6 +336,22 @@ export function syncContext(input: SyncContextInput): SyncResult {
 }
 
 /**
+ * Initialize a new ContextKeeper directory
+ * 
+ * @param input - Init parameters object
+ * @returns Result containing initialization status
+ */
+export function initContext(input: InitContextInput): InitResult {
+  const args = ["init"];
+  if (input.path) args.push("--path", input.path);
+  runCkCommand<{ status: string }>(args);
+  return {
+    path: input.path || ".",
+    status: "initialized",
+  };
+}
+
+/**
  * Helper object exporting all ContextKeeper CLI functions
  */
 export const helpers = {
@@ -329,4 +363,5 @@ export const helpers = {
   removeContextItem,
   editContextItem,
   syncContext,
+  initContext,
 };

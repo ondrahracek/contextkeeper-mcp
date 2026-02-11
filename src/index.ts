@@ -210,6 +210,19 @@ const TOOLS: Tool[] = [
       },
     },
   },
+  {
+    name: "init_context",
+    description: "Initialize a new ContextKeeper directory with .contextkeeper folder and items.json file.",
+    inputSchema: {
+      type: "object",
+      properties: {
+        path: { 
+          type: "string", 
+          description: "Path to initialize (defaults to current directory)" 
+        },
+      },
+    },
+  },
 ];
 
 /**
@@ -299,6 +312,13 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       case "sync_context_items": {
         const path = typeof args?.path === "string" ? args.path : undefined;
         const result = helpers.syncContext({ path });
+        return {
+          content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
+        };
+      }
+      case "init_context": {
+        const path = typeof args?.path === "string" ? args.path : undefined;
+        const result = helpers.initContext({ path });
         return {
           content: [{ type: "text", text: JSON.stringify(result, null, 2) }],
         };
