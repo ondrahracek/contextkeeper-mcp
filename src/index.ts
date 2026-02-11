@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 /**
  * ContextKeeper MCP Server
  * 

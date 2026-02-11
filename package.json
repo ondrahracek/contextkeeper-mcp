@@ -1,6 +1,6 @@
 {
   "name": "@ondrahracek/contextkeeper-mcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "MCP server for ContextKeeper - integrate your context items with AI assistants",
   "main": "build/index.js",
   "bin": {
