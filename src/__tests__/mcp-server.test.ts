@@ -10,6 +10,7 @@ jest.mock('../helpers.js', () => ({
     removeContextItem: jest.fn(),
     editContextItem: jest.fn(),
     syncContext: jest.fn(),
+    initContext: jest.fn(),
   }
 }));
 
@@ -740,5 +741,30 @@ describe('CLI Command to MCP Tool Mapping', () => {
       'sync': 'sync_context_items',
     };
     expect(mapping['sync']).toBe('sync_context_items');
+  });
+
+  it('should map ck init to init_context', () => {
+    const mapping: Record<string, string> = {
+      'init': 'init_context',
+    };
+    expect(mapping['init']).toBe('init_context');
+  });
+});
+
+describe('Init Context', () => {
+  it('should call initContext without path', () => {
+    helpers.initContext({});
+    expect(helpers.initContext).toHaveBeenCalledWith({});
+  });
+
+  it('should call initContext with path', () => {
+    helpers.initContext({ path: '/new-project' });
+    expect(helpers.initContext).toHaveBeenCalledWith({ path: '/new-project' });
+  });
+
+  it('should return initialized status', () => {
+    (helpers.initContext as jest.Mock).mockReturnValue({ path: '.', status: 'initialized' });
+    const result = helpers.initContext({});
+    expect(result.status).toBe('initialized');
   });
 });

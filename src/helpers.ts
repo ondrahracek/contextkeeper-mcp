@@ -344,11 +344,20 @@ export function syncContext(input: SyncContextInput): SyncResult {
 export function initContext(input: InitContextInput): InitResult {
   const args = ["init"];
   if (input.path) args.push("--path", input.path);
-  runCkCommand<{ status: string }>(args);
-  return {
-    path: input.path || ".",
-    status: "initialized",
-  };
+  
+  // Note: ck init doesn't support --json yet, so we use raw exec
+  try {
+    execFileSync("ck", args, { encoding: "utf8" });
+    return {
+      path: input.path || ".",
+      status: "initialized",
+    };
+  } catch (error) {
+    throw new CkCliError(
+      `ContextKeeper init failed: ${error instanceof Error ? error.message : "Unknown error"}`,
+      args
+    );
+  }
 }
 
 /**
