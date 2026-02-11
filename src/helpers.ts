@@ -8,6 +8,8 @@
  */
 
 import { execFileSync, ExecSyncOptions } from "child_process";
+import path from "path";
+import fs from "fs";
 
 // Type definitions for ContextKeeper CLI output
 // =============================================
@@ -342,20 +344,31 @@ export function syncContext(input: SyncContextInput): SyncResult {
  * @returns Result containing initialization status
  */
 export function initContext(input: InitContextInput): InitResult {
-  const args = ["init"];
-  if (input.path) args.push("--path", input.path);
+  // Note: ck init doesn't support --path or --json flags
+  // We use cwd option to run init in the target directory
+  const targetDir = input.path || process.cwd();
+  const absolutePath = path.resolve(targetDir);
   
-  // Note: ck init doesn't support --json yet, so we use raw exec
   try {
-    execFileSync("ck", args, { encoding: "utf8" });
+    // Ensure target directory exists
+    if (!fs.existsSync(absolutePath)) {
+      fs.mkdirSync(absolutePath, { recursive: true });
+    }
+
+    // Run ck init in the target directory (no flags supported)
+    execFileSync("ck", ["init"], { 
+      encoding: "utf8",
+      cwd: absolutePath
+    });
+
     return {
-      path: input.path || ".",
+      path: absolutePath,
       status: "initialized",
     };
   } catch (error) {
     throw new CkCliError(
-      `ContextKeeper init failed: ${error instanceof Error ? error.message : "Unknown error"}`,
-      args
+      `ContextKeeper init failed at ${absolutePath}: ${error instanceof Error ? error.message : "Unknown error"}`,
+      ["init"]
     );
   }
 }
